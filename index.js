@@ -29,7 +29,7 @@ class Fettuccine {
     }
 
     options = Object.assign({}, this.options, options);
-    options.headers = Object.assign(this.options.headers, options.headers);
+    options.headers = Object.assign({}, this.options.headers, options.headers);
 
     if (!options.baseUrl && url === '') {
       return Promise.reject(new Error('Expected a URI but received an empty string.'));
