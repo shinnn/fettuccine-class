@@ -43,7 +43,7 @@ instance1.options;
    }
 */
 
-const instance2 = new fettuccine({
+const instance2 = new Fettuccine({
   baseUrl: 'https://example.com/',
   encoding: null,
   gzip: false,
