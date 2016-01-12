@@ -6,7 +6,7 @@
 [![Dependency Status](https://david-dm.org/shinnn/fettuccine-class.svg)](https://david-dm.org/shinnn/fettuccine-class)
 [![devDependency Status](https://david-dm.org/shinnn/fettuccine-class/dev-status.svg)](https://david-dm.org/shinnn/fettuccine-class#info=devDependencies)
 
-A [class](http://exploringjs.com/es6/ch_classes.html) to create a new [`fettuccine`](https://github.com/shinnn/fettucine) wrapper that defaults to the given options.
+A [class](http://exploringjs.com/es6/ch_classes.html) to create a new [`fettuccine`](https://github.com/shinnn/fettuccine) wrapper that defaults to the given options.
 
 ## Installation
 
@@ -43,7 +43,7 @@ instance1.options;
    }
 */
 
-const instance2 = new Fettucine({
+const instance2 = new Fettuccine({
   baseUrl: 'https://example.com/',
   encoding: null,
   gzip: false,
