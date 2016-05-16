@@ -1,5 +1,7 @@
 'use strict';
 
+const util = require('util');
+
 const loadRequestFromNpmOrCwd = require('load-request-from-cwd-or-npm');
 
 const DEFAULT_USER_AGENT = 'https://github.com/shinnn/fettuccine';
@@ -25,7 +27,7 @@ class Fettuccine {
   }
   get(url, options) {
     if (typeof url !== 'string') {
-      return Promise.reject(new TypeError(`${url} is not a string. Expected a URI.`));
+      return Promise.reject(new TypeError(`${util.inspect(url)} is not a string. Expected a URI.`));
     }
 
     options = Object.assign({}, this.options, options);

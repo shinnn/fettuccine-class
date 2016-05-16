@@ -62,10 +62,10 @@ test('Fettuccine()', t => {
     t.equal(err.syscall, 'getaddrinfo', 'should be rejected when the request fails.');
   }).catch(t.fail);
 
-  new Fettuccine().head(true).then(t.fail, err => {
+  new Fettuccine().head(['1', true]).then(t.fail, err => {
     t.equal(
       err.message,
-      'true is not a string. Expected a URI.',
+      '[ \'1\', true ] is not a string. Expected a URI.',
       'should be rejected when the URL is not a string.'
     );
   }).catch(t.fail);
