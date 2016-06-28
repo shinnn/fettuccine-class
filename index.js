@@ -7,14 +7,18 @@ const loadRequestFromNpmOrCwd = require('load-request-from-cwd-or-npm');
 const DEFAULT_USER_AGENT = 'fettuccine (https://github.com/shinnn/fettuccine)';
 const loadRequest = loadRequestFromNpmOrCwd();
 
+const userAgentHeaderRe = /^user-agent$/i;
+
+function isUserAgentHeader(key) {
+  return userAgentHeaderRe.test(key);
+}
+
 class Fettuccine {
   constructor(options) {
     this.options = Object.assign({gzip: true}, options);
 
     if (this.options.headers) {
-      const userAgents = Object.keys(this.options.headers).filter(function getUserAgents(key) {
-        return /^user-agent$/i.test(key);
-      });
+      const userAgents = Object.keys(this.options.headers).filter(isUserAgentHeader);
 
       if (userAgents.length === 0) {
         this.options.headers['user-agent'] = DEFAULT_USER_AGENT;
