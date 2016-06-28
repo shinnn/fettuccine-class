@@ -4,7 +4,7 @@ const util = require('util');
 
 const loadRequestFromNpmOrCwd = require('load-request-from-cwd-or-npm');
 
-const DEFAULT_USER_AGENT = 'https://github.com/shinnn/fettuccine';
+const DEFAULT_USER_AGENT = 'fettuccine (https://github.com/shinnn/fettuccine)';
 const loadRequest = loadRequestFromNpmOrCwd();
 
 class Fettuccine {
