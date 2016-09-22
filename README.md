@@ -3,8 +3,8 @@
 [![NPM version](https://img.shields.io/npm/v/fettuccine-class.svg)](https://www.npmjs.com/package/fettuccine-class)
 [![Build Status](https://travis-ci.org/shinnn/fettuccine-class.svg?branch=master)](https://travis-ci.org/shinnn/fettuccine-class)
 [![Coverage Status](https://img.shields.io/coveralls/shinnn/fettuccine-class.svg)](https://coveralls.io/github/shinnn/fettuccine-class)
-[![Dependency Status](https://david-dm.org/shinnn/fettuccine-class.svg)](https://david-dm.org/shinnn/fettuccine-class)
-[![devDependency Status](https://david-dm.org/shinnn/fettuccine-class/dev-status.svg)](https://david-dm.org/shinnn/fettuccine-class#info=devDependencies)
+[![dependencies Status](https://david-dm.org/shinnn/fettuccine-class/status.svg)](https://david-dm.org/shinnn/fettuccine-class)
+[![dependencies Status](https://david-dm.org/shinnn/fettuccine-class/status.svg)](https://david-dm.org/shinnn/fettuccine-class)
 
 A [class](http://exploringjs.com/es6/ch_classes.html) to create a new [`fettuccine`](https://github.com/shinnn/fettuccine) wrapper that defaults to the given options.
 
