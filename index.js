@@ -18,9 +18,9 @@ class Fettuccine {
     this.options = Object.assign({gzip: true}, options);
 
     if (this.options.headers) {
-      const userAgents = Object.keys(this.options.headers).filter(isUserAgentHeader);
+      const hasUserAgent = Object.keys(this.options.headers).some(isUserAgentHeader);
 
-      if (userAgents.length === 0) {
+      if (!hasUserAgent) {
         this.options.headers['user-agent'] = DEFAULT_USER_AGENT;
       }
     } else {
