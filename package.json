@@ -1,47 +1,47 @@
 {
-  "name": "fettuccine-class",
-  "version": "1.0.3",
-  "description": "A class to create a new fettuccine wrapper that defaults to the given options",
-  "repository": "shinnn/fettuccine-class",
-  "author": "Shinnosuke Watanabe (https://github.com/shinnn)",
-  "scripts": {
-    "pretest": "eslint --fix --format=codeframe index.js test.js",
-    "test": "node --throw-deprecation --track-heap-objects test.js",
-    "coverage": "istanbul cover test.js"
-  },
-  "license": "MIT",
-  "files": [
-    "index.js"
-  ],
-  "keywords": [
-    "fettuccine",
-    "request",
-    "http",
-    "https",
-    "class",
-    "wrap",
-    "wrapper",
-    "option",
-    "options",
-    "default",
-    "defaults",
-    "get",
-    "put",
-    "patch",
-    "post",
-    "head",
-    "delete"
-  ],
-  "dependencies": {
-    "load-request-from-cwd-or-npm": "^2.0.0"
-  },
-  "devDependencies": {
-    "@shinnn/eslint-config-node": "^3.0.0",
-    "eslint": "^3.10.2",
-    "istanbul": "^0.4.5",
-    "tape": "^4.6.2"
-  },
-  "eslintConfig": {
-    "extends": "@shinnn/node"
-  }
+	"name": "fettuccine-class",
+	"version": "1.0.3",
+	"description": "A class to create a new fettuccine wrapper that defaults to the given options",
+	"repository": "shinnn/fettuccine-class",
+	"author": "Shinnosuke Watanabe (https://github.com/shinnn)",
+	"scripts": {
+		"pretest": "eslint --fix --format=codeframe index.js test.js",
+		"test": "node --throw-deprecation --track-heap-objects test.js",
+		"coverage": "istanbul cover test.js"
+	},
+	"license": "MIT",
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"fettuccine",
+		"request",
+		"http",
+		"https",
+		"class",
+		"wrap",
+		"wrapper",
+		"option",
+		"options",
+		"default",
+		"defaults",
+		"get",
+		"put",
+		"patch",
+		"post",
+		"head",
+		"delete"
+	],
+	"dependencies": {
+		"load-request-from-cwd-or-npm": "^2.0.1"
+	},
+	"devDependencies": {
+		"@shinnn/eslint-config-node": "^5.0.0",
+		"eslint": "^4.12.1",
+		"istanbul": "^0.4.5",
+		"tape": "^4.8.0"
+	},
+	"eslintConfig": {
+		"extends": "@shinnn/node"
+	}
 }
