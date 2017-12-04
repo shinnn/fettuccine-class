@@ -1,6 +1,6 @@
 # fettuccine-class
 
-[![NPM version](https://img.shields.io/npm/v/fettuccine-class.svg)](https://www.npmjs.com/package/fettuccine-class)
+[![npm version](https://img.shields.io/npm/v/fettuccine-class.svg)](https://www.npmjs.com/package/fettuccine-class)
 [![Build Status](https://travis-ci.org/shinnn/fettuccine-class.svg?branch=master)](https://travis-ci.org/shinnn/fettuccine-class)
 [![Coverage Status](https://img.shields.io/coveralls/shinnn/fettuccine-class.svg)](https://coveralls.io/github/shinnn/fettuccine-class)
 [![dependencies Status](https://david-dm.org/shinnn/fettuccine-class/status.svg)](https://david-dm.org/shinnn/fettuccine-class)
@@ -10,7 +10,7 @@ A [class](http://exploringjs.com/es6/ch_classes.html) to create a new [`fettucci
 
 ## Installation
 
-[Use npm.](https://docs.npmjs.com/cli/install)
+[Use](https://docs.npmjs.com/cli/install) [npm](https://docs.npmjs.com/getting-started/what-is-npm).
 
 ```
 npm install fettuccine-class
@@ -25,7 +25,7 @@ const Fettuccine = require('fettuccine-class');
 ### instance = new Fettuccine([*options*])
 
 *options*: `Object` (used as default options of instance methods)  
-Return: `Object` (a [class](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Classes) instance)
+Return: `Object`
 
 ### instance.options
 
@@ -74,10 +74,10 @@ const instance = new Fettuccine({
   baseUrl: 'https://www.npmjs.com/package/'
 });
 
-instance.get('rimraf').then(response => {
-  response.body;
+(async () => {
+  const {body} = instance.get('rimraf');
   //=> '<!doctype html>\n<html lang="en">\n<head>\n  <meta charset="utf-8">\n  <title>rimraf</title>\n ...'
-});
+})();
 ```
 
 ### instance.post(), instance.put(), instance.patch(), instance.head(), instance.delete()
@@ -86,6 +86,4 @@ Set `options.method` to the method name and call `instance.get()`.
 
 ## License
 
-Copyright (c) 2015 - 2016 [Shinnosuke Watanabe](https://github.com/shinnn)
-
-Licensed under [the MIT License](./LICENSE).
+[ISC License](./LICENSE) © 2017 Shinnosuke Watanabe
