@@ -5,7 +5,9 @@ const {createServer} = require('http');
 const Fettuccine = require('.');
 const test = require('tape');
 
-const server = createServer(function(req, response) {
+let count = 0;
+
+createServer(function(req, response) {
 	if (req.method === 'POST') {
 		req.once('data', data => {
 			response.writeHead(200, {'Content-Type': 'application/json'});
@@ -22,15 +24,13 @@ const server = createServer(function(req, response) {
 		response.end('[1]');
 	}
 
-	if (++this.responded === 3) {
+	if (++count === 3) {
 		this.close();
 	}
 }).listen(8124);
 
-server.responded = 0;
-
 test('Fettuccine()', t => {
-	t.plan(7);
+	t.plan(5);
 
 	new Fettuccine().get('http://localhost:8124').then(response => {
 		t.equal(response.body, '[1]', 'should send a request to the server.');
@@ -49,32 +49,49 @@ test('Fettuccine()', t => {
 		headers: {'user-Agent': 'Fettucine'},
 		json: false,
 		baseUrl: 'http://localhost:8124'
-	}).then(response => {
-		t.equal(response.body, '{"status": "deleted"}', 'should have alias methods.');
+	}).then(({body, headers}) => {
+		t.equal(body, '{"status": "deleted"}', 'should have alias methods.');
 		t.equal(
-			response.headers.foo,
+			headers.foo,
 			'Fettucine',
 			'should use the first argument of the method as prior options.'
 		);
 	}).catch(t.fail);
 
-	new Fettuccine().patch('https://n/o/_/s/e/r/v/e/r').then(t.fail, err => {
-		t.equal(err.syscall, 'getaddrinfo', 'should be rejected when the request fails.');
+	new Fettuccine().patch('https://n/o/_/s/e/r/v/e/r').then(t.fail, ({syscall}) => {
+		t.equal(syscall, 'getaddrinfo', 'should be rejected when the request fails.');
 	}).catch(t.fail);
+});
 
-	new Fettuccine().head(['1', true]).then(t.fail, err => {
+test('Method argument validation', async t => {
+	try {
+		await new Fettuccine().head(['1', true]);
+	} catch ({message}) {
 		t.equal(
-			err.message,
+			message,
 			'[ \'1\', true ] is not a string. Expected a URI.',
 			'should be rejected when the URL is not a string.'
 		);
-	}).catch(t.fail);
+	}
 
-	new Fettuccine().delete('').then(t.fail, err => {
+	try {
+		await new Fettuccine().delete('');
+	} catch ({message}) {
 		t.equal(
-			err.message,
+			message,
 			'Expected a URI but received an empty string.',
 			'should be rejected when it takes an empty string URL and `baseUrl` is not defined.'
 		);
-	}).catch(t.fail);
+	}
+
+	try {
+		await new Fettuccine().get('https://exmaple.com/%%');
+	} catch (err) {
+		t.ok(
+			err instanceof URIError,
+			'should be rejected when it takes an RFC 3986 incompatible URI.'
+		);
+	}
+
+	t.end();
 });

@@ -35,6 +35,14 @@ class Fettuccine {
 			return Promise.reject(new TypeError(`${util.inspect(url)} is not a string. Expected a URI.`));
 		}
 
+		try {
+			decodeURI(url);
+		} catch (e) {
+			return Promise.reject(new URIError(`Expected an RFC 3986 compatible URI, but received ${
+				util.inspect(url)
+			}. In short, RFC 3986 says that a URI must be a UTF-8 sequence. https://tools.ietf.org/html/rfc3986`));
+		}
+
 		options = Object.assign({}, this.options, options);
 		options.headers = Object.assign({}, this.options.headers, options.headers);
 
