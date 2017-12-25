@@ -16,7 +16,7 @@ createServer(function(req, response) {
 	} else if (req.method === 'DELETE') {
 		response.writeHead(200, {
 			'Content-Type': 'text/plain',
-			foo: req.headers['user-agent']
+			[req.headers.key]: req.headers['user-agent']
 		});
 		response.end('{"status": "deleted"}');
 	} else {
@@ -46,7 +46,10 @@ test('Fettuccine()', t => {
 	}).catch(t.fail);
 
 	new Fettuccine({headers: {'User-agent': 'fettucine'}}).delete('', {
-		headers: {'user-Agent': 'Fettucine'},
+		headers: {
+			key: 'foo',
+			'user-Agent': 'Fettucine'
+		},
 		json: false,
 		baseUrl: 'http://localhost:8124'
 	}).then(({body, headers}) => {

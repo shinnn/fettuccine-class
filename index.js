@@ -14,8 +14,8 @@ function isUserAgentHeader(key) {
 }
 
 class Fettuccine {
-	constructor(options) {
-		this.options = Object.assign({gzip: true}, options);
+	constructor(baseOptions) {
+		this.options = Object.assign({gzip: true}, baseOptions);
 
 		if (this.options.headers) {
 			const hasUserAgent = Object.keys(this.options.headers).some(isUserAgentHeader);
@@ -27,7 +27,20 @@ class Fettuccine {
 			this.options.headers = {'user-agent': DEFAULT_USER_AGENT};
 		}
 
-		this.request = loadRequest;
+		this.load = loadRequest.then(bareRequest => {
+			const request = bareRequest.defaults(this.options);
+
+			return (url, options) => new Promise((resolve, reject) => {
+				request(url, options, (err, res) => {
+					if (err) {
+						reject(err);
+						return;
+					}
+
+					resolve(res);
+				});
+			});
+		});
 	}
 
 	get(url, options) {
@@ -43,38 +56,24 @@ class Fettuccine {
 			}. In short, RFC 3986 says that a URI must be a UTF-8 sequence. https://tools.ietf.org/html/rfc3986`));
 		}
 
-		options = Object.assign({}, this.options, options);
-		options.headers = Object.assign({}, this.options.headers, options.headers);
-
-		if (!options.baseUrl && url === '') {
+		if (!this.options.baseUrl && (!options || typeof options !== 'object' || !options.baseUrl) && url === '') {
 			return Promise.reject(new Error('Expected a URI but received an empty string.'));
 		}
 
-		return this.request.then(function promisifyRequest(request) {
-			return new Promise(function executor(resolve, reject) {
-				request(url, options, function requestCallback(err, res) {
-					if (err) {
-						reject(err);
-						return;
-					}
-
-					resolve(res);
-				});
-			});
-		});
+		return this.load.then(promisifiedRequest => promisifiedRequest(url, options));
 	}
 }
 
-[
+for (const method of [
 	'post',
 	'put',
 	'patch',
 	'head',
 	'delete'
-].forEach(method => {
+]) {
 	Fettuccine.prototype[method] = function(url, options) {
 		return this.get(url, Object.assign({}, options, {method}));
 	};
-});
+}
 
 module.exports = Fettuccine;
