@@ -1,6 +1,6 @@
 {
 	"name": "fettuccine-class",
-	"version": "1.1.0",
+	"version": "2.0.0-0",
 	"description": "A class to create a new fettuccine wrapper that defaults to the given options",
 	"repository": "shinnn/fettuccine-class",
 	"author": "Shinnosuke Watanabe (https://github.com/shinnn)",
