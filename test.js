@@ -1,7 +1,9 @@
 'use strict';
 
 const {createServer} = require('http');
+const {resolve} = require('path');
 
+const clearModules = require('clear-module').all;
 const Fettuccine = require('.');
 const test = require('tape');
 
@@ -29,41 +31,60 @@ createServer(function(req, response) {
 	}
 }).listen(8124);
 
-test('Fettuccine()', t => {
+test('Fettuccine prototype methods', t => {
 	t.plan(5);
 
-	new Fettuccine().get('http://localhost:8124').then(response => {
-		t.equal(response.body, '[1]', 'should send a request to the server.');
-	}).catch(t.fail);
+	(async () => {
+		t.equal(
+			(await new Fettuccine().get('http://localhost:8124')).body,
+			'[1]',
+			'should send a request to the server.'
+		);
+	})();
 
-	new Fettuccine({
-		method: 'post',
-		body: [1, 2],
-		headers: {},
-		json: true
-	}).get('http://localhost:8124').then(response => {
-		t.deepEqual(response.body, {data: [1, 2]}, 'should use constructor parameters as its default options.');
-	}).catch(t.fail);
+	(async () => {
+		t.deepEqual(
+			(await new Fettuccine({
+				method: 'post',
+				body: [1, 2],
+				headers: {},
+				json: true
+			}).get('http://localhost:8124')).body,
+			{data: [1, 2]},
+			'should use constructor parameters as its default options.'
+		);
+	})();
 
-	new Fettuccine({headers: {'User-agent': 'fettucine'}}).delete('', {
-		headers: {
-			key: 'foo',
-			'user-Agent': 'Fettucine'
-		},
-		json: false,
-		baseUrl: 'http://localhost:8124'
-	}).then(({body, headers}) => {
-		t.equal(body, '{"status": "deleted"}', 'should have alias methods.');
+	(async () => {
+		const {body, headers} = await new Fettuccine({headers: {'User-agent': 'fettucine'}}).delete('', {
+			headers: {
+				key: 'foo',
+				'user-Agent': 'Fettucine'
+			},
+			json: false,
+			baseUrl: 'http://localhost:8124'
+		});
+
+		t.deepEqual(body, '{"status": "deleted"}', 'should contain per-method aliases.');
+
 		t.equal(
 			headers.foo,
 			'Fettucine',
 			'should use the first argument of the method as prior options.'
 		);
-	}).catch(t.fail);
+	})();
 
-	new Fettuccine().patch('https://n/o/_/s/e/r/v/e/r').then(t.fail, ({syscall}) => {
-		t.equal(syscall, 'getaddrinfo', 'should be rejected when the request fails.');
-	}).catch(t.fail);
+	(async () => {
+		try {
+			await new Fettuccine({
+				headers: {
+					'Accept-Language': 'en-US,en;q=0.5'
+				}
+			}).patch('https://n/o/_/s/e/r/v/e/r');
+		} catch ({syscall}) {
+			t.equal(syscall, 'getaddrinfo', 'should be rejected when the request fails.');
+		}
+	})();
 });
 
 test('Method argument validation', async t => {
@@ -72,7 +93,7 @@ test('Method argument validation', async t => {
 	} catch ({message}) {
 		t.equal(
 			message,
-			'[ \'1\', true ] is not a string. Expected a URI.',
+			'Expected a URI but got a non-string value [ \'1\', true ] (array).',
 			'should be rejected when the URL is not a string.'
 		);
 	}
@@ -82,7 +103,7 @@ test('Method argument validation', async t => {
 	} catch ({message}) {
 		t.equal(
 			message,
-			'Expected a URI but received an empty string.',
+			'Expected a URI but received \'\' (empty string).',
 			'should be rejected when it takes an empty string URL and `baseUrl` is not defined.'
 		);
 	}
@@ -98,3 +119,22 @@ test('Method argument validation', async t => {
 
 	t.end();
 });
+
+test('Fettucine#get() with no globally installed npm CLI', async t => {
+	clearModules();
+
+	process.env.PATH = resolve('/none', 'exists');
+	delete process.env.npm_execpath;
+
+	const FetticineUnloadable = require('.');
+	const fettucine = new FetticineUnloadable();
+
+	try {
+		await fettucine.get('https://exmaple.org');
+	} catch ({code}) {
+		t.equal(code, 'MODULE_NOT_FOUND', 'should fail.');
+	}
+
+	t.end();
+});
+
