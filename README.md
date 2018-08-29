@@ -4,7 +4,9 @@
 [![Build Status](https://travis-ci.org/shinnn/fettuccine-class.svg?branch=master)](https://travis-ci.org/shinnn/fettuccine-class)
 [![Coverage Status](https://img.shields.io/coveralls/shinnn/fettuccine-class.svg)](https://coveralls.io/github/shinnn/fettuccine-class)
 
-A class to create a new [`fettuccine`](https://github.com/shinnn/fettuccine) wrapper that defaults to the given options.
+A [class](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Classes) to create a new [`fettuccine`](https://github.com/shinnn/fettuccine) wrapper that defaults to given options.
+
+Basically end users would rather use `fettuccine` directly, which covers most use cases. `fettucine-class` is designed for library authors to create an HTTP client interacting with a specific web service or API.
 
 ## Installation
 
@@ -25,62 +27,28 @@ const Fettuccine = require('fettuccine-class');
 *options*: `Object` (used as default options of instance methods)  
 Return: `Object`
 
-### instance.options
+### instance.fetch(*url* [, *options*])
 
-Options that `instance.get()` uses by default.
-
-```javascript
-const instance1 = new Fettuccine();
-
-instance1.options;
-/* => {
-     gzip: true,
-     headers: {
-       'user-agent': 'https://github.com/shinnn/fettuccine'
-     }
-   }
-*/
-
-const instance2 = new Fettuccine({
-  baseUrl: 'https://example.com/',
-  encoding: null,
-  gzip: false,
-  headers: {
-    'x-token': 'my-token'
-  }
-});
-
-instance2.options;
-/* => {
-     gzip: false,
-     baseUrl: 'https://example.com/',
-     encoding: null,
-     headers: {
-       'x-token': 'my-token',
-       'user-agent': 'https://github.com/shinnn/fettuccine'
-     }
-   }
-*/
-```
-
-### instance.get()
-
-Same as [`fettuccine()`](https://github.com/shinnn/fettuccine#fettuccineurl--options), but uses `instance.options` as default options.
+Same as [`fettuccine()`](https://github.com/shinnn/fettuccine#fettuccineurl--options), but uses options passed to the constructor by default.
 
 ```javascript
-const instance = new Fettuccine({
-  baseUrl: 'https://www.npmjs.com/package/'
+const packageInfo = new Fettuccine({
+  baseUrl: 'https://registry.npmjs.org/'
 });
 
 (async () => {
-  const {body} = instance.get('rimraf');
-  //=> '<!doctype html>\n<html lang="en">\n<head>\n  <meta charset="utf-8">\n  <title>rimraf</title>\n ...'
+  const {description} = await (await packageInfo.fetch('npm')).json();
+  //=> 'a package manager for JavaScript'
 })();
 ```
 
-### instance.post(), instance.put(), instance.patch(), instance.head(), instance.delete()
+### instance.delete(*url* [, *options*]), instance.get(*url* [, *options*]),, instance.head(*url* [, *options*]), instance.patch(*url* [, *options*]), instance.post(*url* [, *options*]), instance.put(*url* [, *options*])
 
-Set `options.method` to the method name and call `instance.get()`.
+Set `options.method` to the corresponding method name and call `instance.fetch()`. In those function `options.method` is not configurable.
+
+### instance.option
+
+Default options used by `instance.fetch()`.
 
 ## License
 

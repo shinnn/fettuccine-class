@@ -4,16 +4,17 @@
 	"description": "A class to create a new fettuccine wrapper that defaults to the given options",
 	"repository": "shinnn/fettuccine-class",
 	"author": "Shinnosuke Watanabe (https://github.com/shinnn)",
+	"license": "ISC",
 	"scripts": {
-		"pretest": "eslint --fix --format=codeframe .",
+		"pretest": "eslint .",
 		"test": "nyc --reporter=html --reporter=text node test.js"
 	},
-	"license": "ISC",
 	"files": [
 		"index.js"
 	],
 	"keywords": [
 		"fettuccine",
+		"fetch",
 		"request",
 		"http",
 		"https",
@@ -32,14 +33,12 @@
 		"delete"
 	],
 	"dependencies": {
-		"inspect-with-kind": "^1.0.4",
-		"load-request-from-cwd-or-npm": "^3.0.0"
+		"wise-fetch": "^0.1.0"
 	},
 	"devDependencies": {
 		"@shinnn/eslint-config-node": "^6.0.0",
-		"clear-module": "^2.1.0",
-		"eslint": "^5.0.1",
-		"nyc": "^12.0.2",
+		"eslint": "^5.4.0",
+		"nyc": "^13.0.1",
 		"tape": "^4.9.1"
 	},
 	"eslintConfig": {
