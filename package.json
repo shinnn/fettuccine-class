@@ -7,7 +7,7 @@
 	"license": "ISC",
 	"scripts": {
 		"pretest": "eslint .",
-		"test": "nyc --reporter=html --reporter=text node test.js"
+		"test": "nyc node test.js"
 	},
 	"files": [
 		"index.js"
@@ -16,6 +16,8 @@
 		"fettuccine",
 		"fetch",
 		"request",
+		"cancelable",
+		"abortable",
 		"http",
 		"https",
 		"class",
@@ -33,15 +35,19 @@
 		"delete"
 	],
 	"dependencies": {
-		"wise-fetch": "^0.1.0"
+		"wise-fetch": "^0.3.0"
 	},
 	"devDependencies": {
-		"@shinnn/eslint-config-node": "^6.0.0",
-		"eslint": "^5.4.0",
+		"@shinnn/eslint-config": "^6.7.0",
+		"eslint": "^5.5.0",
 		"nyc": "^13.0.1",
+		"nyc-config-common": "^1.0.0",
 		"tape": "^4.9.1"
 	},
 	"eslintConfig": {
-		"extends": "@shinnn/node"
+		"extends": "@shinnn"
+	},
+	"nyc": {
+		"extends": "nyc-config-common"
 	}
 }

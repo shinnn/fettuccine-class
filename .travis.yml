@@ -3,4 +3,4 @@ branches:
 language: node_js
 node_js: node
 before_install: npm install --global npm
-after_script: node_modules/.bin/nyc report --reporter=text-lcov | npx coveralls
+after_script: node_modules/.bin/nyc report | npx coveralls
